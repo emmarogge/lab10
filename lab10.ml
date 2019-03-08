@@ -188,11 +188,11 @@ let exercise5b () : complexity list =
 
 (* f(x) = 3 x^2 + 2 x + 4 *)
 let exercise5c () : complexity list=
-  [Quadratic] ;;
+  [Quadratic;Linear;Constant] ;;
 
 (* f(x) = (2 x - 3) log(x) + 100 x *)
 let exercise5d () : complexity list =
-  [LogLinear, Logarithmic, Linear] ;;
+  [LogLinear; Logarithmic; Linear] ;;
 
 (* f(x) = x (x^2 + x) *)
 let exercise5e () : complexity list =
@@ -244,8 +244,12 @@ end ;;
    sorted by DelayMergeSort and InsertSort until DelayMergeSort runs
    faster than InsertSort. Record the size of a list for which this is
    true below. *)
-
-let exercise6 () = failwith "exercise6 not implemented"
+(*
+let q (x : int) : bool =
+let r_lst = (Lab10.random_list x) in
+(Lab10.time_sort (Lab10.DelayMergeSort.sort (<)) r_lst) < (Lab10.time_sort (Lab10.InsertSort.sort (<)) r_lst);;
+*)
+let exercise6 () = 2700;;
 
 (* Big-O also allows us to disregard constant multiplicative factors. In
    this exercise, we work with a version of MergeSort that sorts a given
@@ -281,8 +285,12 @@ end ;;
 
 (* Now record a list length for which you found DoubleMergeSort
    sorted faster than InsertSort. *)
-
-let exercise7 () = failwith "exercise6 not implemented"
+(*
+let q (x : int) : bool =
+let r_lst = (Lab10.random_list x) in
+(Lab10.time_sort (Lab10.DoubleMergeSort.sort (<)) r_lst) < (Lab10.time_sort (Lab10.InsertSort.sort (<)) r_lst);;
+*)
+let exercise7 () = 2000 ;;
 
 (* An additional nice property of big-O is the ability to disregard
    lower-order terms of a function. In the reading, we found that:
@@ -322,7 +330,12 @@ end ;;
 
 (* Now record a list length for which ExtraTermMergeSort works faster
     than InsertSort. *)
-let exercise8 () = failwith "exercise6 not implemented"
+(*
+let q (x : int) : bool =
+let r_lst = (Lab10.random_list x) in
+(Lab10.time_sort (Lab10.ExtraTermMergeSort.sort (<)) r_lst) < (Lab10.time_sort (Lab10.InsertSort.sort (<)) r_lst);;
+*)
+let exercise8 () = 47;;
 
 (*......................................................................
   Exercise 9: More big-O
