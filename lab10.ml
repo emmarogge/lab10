@@ -10,7 +10,7 @@
     Big O notation
     Recurrence equations
 *)
-
+open CS51 ;;
 (*======================================================================
   Part 1: Empirical analysis of functions
 
@@ -41,7 +41,8 @@ let rec random_list (length : int) : int list =
   ....................................................................*)
 
 let time_sort (sort : int list -> int list) (lst : int list) : float =
-  failwith "time_sort not implemented";;
+  let (_, time) = call_timed sort lst in
+  time  ;;
 
 (* We've provided implementations of merge sort and insertion sort
    here as modules satisfying the SORT signature so that you have some
@@ -110,14 +111,17 @@ end ;;
   Exercise 3: List the functions provided by the InsertionSort
   module. List the functions provided by the MergeSort module.
   ....................................................................*)
-
+(*
+The InsertSort module provides insert and sort.
+The MergeSort module provides merge and sort.
+*)
 
 (*....................................................................
   Exercise 4: Compare the time it takes for merge sort and insertion
   sort to run on lists of random ints of length 10 and 1000. We've
   included an implementation of merge and insertion sort below.
   ....................................................................*)
-
+(call_reporting_time (InsertSort.sort (<)) (random_list 10));
 
 (*......................................................................
   Fill in the table below:
@@ -125,9 +129,9 @@ end ;;
                 |    List length 10    |  List length 1000
                 |    Time (seconds)    |  Time (seconds)
   ------------------------------------------------------------
-  Insertion Sort  |                      |
+  Insertion Sort  |   1.192e-06         |  0.007206202
   ------------------------------------------------------------
-  Merge Sort      |                      |
+  Merge Sort      |  4.053e-06          |  0.000511885
   ------------------------------------------------------------
 
   ......................................................................*)
@@ -180,19 +184,19 @@ let exercise5a () : complexity list =
 
 (* f(x) = 0 *)
 let exercise5b () : complexity list =
-  failwith "exercise5b not implemented" ;;
+  [Constant] ;;
 
 (* f(x) = 3 x^2 + 2 x + 4 *)
 let exercise5c () : complexity list=
-  failwith "exercise5c not implemented" ;;
+  [Quadratic] ;;
 
 (* f(x) = (2 x - 3) log(x) + 100 x *)
 let exercise5d () : complexity list =
-  failwith "exercise5d not implemented" ;;
+  [LogLinear, Logarithmic, Linear] ;;
 
 (* f(x) = x (x^2 + x) *)
 let exercise5e () : complexity list =
-  failwith "exercise5e not implemented" ;;
+  [Cubic] ;;
 
 
 (* One advantage of big-O is that we can disregard constants in
