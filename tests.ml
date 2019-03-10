@@ -7,6 +7,7 @@
 
 open Lab10 ;;
 open CS51 ;;
+open List ;;
 
 
 let test_random_list () =

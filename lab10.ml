@@ -28,11 +28,12 @@ open CS51 ;;
   specified length of random integers between 0 and 999.
   ....................................................................*)
 let rec random_list (length : int) : int list =
-  let rec append_random  (length: int) (acc : int list) : int list =
+List.init length (fun _ -> Random.int 1000);;
+(*   let rec append_random  (length: int) (acc : int list) : int list =
     if length > 0
     then append_random (length - 1) ((Random.int 999)::acc)
     else acc
-  in (append_random length []);;
+  in (append_random length []);; *)
 
 (*....................................................................
   Exercise 2: Write a function, time_sort, that, given an int list ->
@@ -184,19 +185,19 @@ let exercise5a () : complexity list =
 
 (* f(x) = 0 *)
 let exercise5b () : complexity list =
-  [Constant] ;;
+  [Constant;Logarithmic;Linear;LogLinear;Quadratic;Cubic;Exponential] ;;
 
 (* f(x) = 3 x^2 + 2 x + 4 *)
 let exercise5c () : complexity list=
-  [Quadratic;Linear;Constant] ;;
+  [Quadratic; Cubic; Exponential] ;;
 
 (* f(x) = (2 x - 3) log(x) + 100 x *)
 let exercise5d () : complexity list =
-  [LogLinear; Logarithmic; Linear] ;;
+  [LogLinear; Quadratic; Cubic; Exponential] ;;
 
 (* f(x) = x (x^2 + x) *)
 let exercise5e () : complexity list =
-  [Cubic] ;;
+  [Cubic; Exponential] ;;
 
 
 (* One advantage of big-O is that we can disregard constants in
@@ -356,24 +357,24 @@ let exercise8 () = 47;;
 
 (* f(x) = 10000 *)
 let exercise9a () : complexity list =
-  failwith "exercise9a not implemented" ;;
+  [Constant;Logarithmic;Linear;LogLinear;Quadratic;Cubic] ;;
 
 (* f(x) = 50x^100 + x^2 *)
 let exercise9b () : complexity list =
-  failwith "exercise9b not implemented" ;;
+  [Exponential] ;;
 
 (* f(x) = 30xlog(x) + 50x + 70 *)
 
 let exercise9c () : complexity list =
-  failwith "exercise9c not implemented" ;;
+  [LogLinear; Quadratic; Cubic; Exponential];;
 
 (* f(x) = 30x^2 * log(x) *)
 let exercise9d () : complexity list =
-  failwith "exercise9d not implemented" ;;
+  [Quadratic; Cubic; Exponential] ;;
 
 (* f(x) = x + 60log(x) *)
 let exercise9e () : complexity list =
-  failwith "exercise9e not implemented" ;;
+  [Linear; LogLinear; Quadratic; Cubic; Exponential] ;;
 
 (*======================================================================
   Part 3: Recurrence Equations
@@ -430,11 +431,12 @@ let rec insert xs x =
   Complete the recurrence equations and time complexity of this function:
   ......................................................................*)
 
-let time_insert (n : int) : int =
-  failwith "time_insert not yet implemented" ;;
+let rec time_insert (n : int) : int =
+  if n = 0 then k
+  else k + time_insert(n - 1);;
 
 let insert_complexity () : complexity =
-  failwith "insert_complexity not yet implemented" ;;
+  Linear ;;
 (*......................................................................
                             SOLUTION
 
@@ -488,12 +490,13 @@ let rec sum (x : int list) : int =
 
 (* Describe the time complexity recurrence equations for sum as an
    ocaml function *)
-let time_sum (n : int) : int =
-  failwith "time_sum not yet implemented" ;;
+let rec time_sum (n : int) : int =
+  if n = 0 then k
+  else k + time_sum (n - 1) ;;
 
 (* What is its complexity? *)
 let sum_complexity () : complexity =
-  failwith "sum_complexity not yet implemented" ;;
+  Linear ;;
 
 (*......................................................................
   Exercise 11: Divider Recurrence Equations
@@ -507,11 +510,12 @@ let rec divider (x : int) : int =
   else if x <= 1 then 0
   else 1 + divider (x / 2);;
 
-let time_divider (n : int) : int =
-  failwith "time_sum not yet implemented" ;;
+let rec time_divider (n : int) : int =
+  if n <= 1 then k
+else k + (time_divider (n / 2));;
 
 let divider_complexity () : complexity =
-  failwith "time_complexity not yet implemented" ;;
+  Logarithmic ;;
 
 (*......................................................................
   Exercise 12: Find_min recurrence equations
@@ -537,17 +541,19 @@ let rec find_min (xs : int list) : int =
   | _ -> let l1, l2 = split xs in
     min (find_min l1) (find_min l2) ;;
 
-let time_split (n : int) : int =
-  failwith "time_split not yet implemented" ;;
+let rec time_split (n : int) : int =
+if n = 0 then k else if n = 1 then k
+else k + time_split(n - 2) ;;
 
 let split_complexity () : complexity =
-  failwith "split_complexity not yet implemented" ;;
+  Linear ;;
 
-let time_find_min (n : int) : int =
-  failwith "time_find_min not yet implemented" ;;
+let rec time_find_min (n : int) : int =
+  if n <= 1 then k
+else (time_split n) + 2*(time_find_min (n/2)) + k ;;
 
 let find_min_complexity () : complexity =
-  failwith "find_min_complexity not yet implemented" ;;
+  LogLinear ;;
 
 
 (*======================================================================
@@ -635,10 +641,11 @@ let mult_karatsuba (x : int) (y : int) : int =
   ......................................................................*)
 
 let time_multiply (mult : int -> int -> int)
-    (x : int)
-    (y : int)
-  : float =
-  failwith "time_multiply not yet implemented";;
+                  (x : int)
+                  (y : int)
+                : float =
+  let _, time = CS51.call_timed (fun (x, y) -> mult x y) (x, y) in
+  time ;;
 
 (*......................................................................
   Exercise 14: Fill in the table below:
@@ -647,15 +654,15 @@ let time_multiply (mult : int -> int -> int)
                        |    15 * 50           |  1241342345 *
                        |                      |  3237461243
                        |    Time (seconds)    |  Time (seconds)
-  -----------------------------------------------------------------
-  Repeated Addition      |                      |
-  -----------------------------------------------------------------
-  Grade School Algorithm |                      |
-  -----------------------------------------------------------------
-  Karatsuba              |                      |
-  -----------------------------------------------------------------
-  OCaml Native ( * )     |                      |
-  -----------------------------------------------------------------
+-----------------------------------------------------------------
+Repeated Addition      |     0.00000286       |  83.5
+-----------------------------------------------------------------
+Grade School Algorithm |     0.00000310       |  0.0000129
+-----------------------------------------------------------------
+Karatsuba              |     0.00000787       |  0.0000281
+-----------------------------------------------------------------
+OCaml Native ( * )     |     0.00000119       |  ~0
+-----------------------------------------------------------------
   ....................................................................*)
 (*......................................................................
   Questions to consider:
